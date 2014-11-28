@@ -12,7 +12,7 @@
 
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-        <!--<property name="hbm2ddl.auto">update</property>-->
+        <!--<property name="hbm2ddl.auto">create</property>-->
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
@@ -21,6 +21,9 @@
         <mapping class="info.hieudt.scraper.fpts.domain.ChungKhoan" />
         <mapping class="info.hieudt.scraper.fpts.domain.NgayChungKhoanPK" />
         <mapping class="info.hieudt.scraper.fpts.domain.ThongKeGia" />
+        <mapping class="info.hieudt.scraper.fpts.domain.Gia" />
+        <mapping class="info.hieudt.scraper.fpts.domain.GiaTriGiaoDich" />
+        <mapping class="info.hieudt.scraper.fpts.domain.KhoiLuongGiaoDich" />
 
         <!-- <mapping resource="com/mkyong/user/DBUser.hbm.xml"></mapping> -->
     </session-factory>

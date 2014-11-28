@@ -23,17 +23,16 @@ public class ChungKhoan implements Serializable {
 	@GeneratedValue
 	private Integer idChungKhoan;
 
-	@Column(unique = true)
+	@Column(unique = true, length = 5)
 	private String maChungKhoan;
 
 	@OneToMany(mappedBy = "pk.chungKhoan", cascade = CascadeType.ALL)
 	private List<ThongKeGia> thongKeGia = new ArrayList<ThongKeGia>();
 
+	public ChungKhoan() {}
+
 	public ChungKhoan(String maChungKhoan) {
 		this.maChungKhoan = maChungKhoan;
-	}
-
-	public ChungKhoan() {
 	}
 
 	public Integer getIdChungKhoan() {

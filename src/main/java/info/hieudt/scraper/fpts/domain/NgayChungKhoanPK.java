@@ -22,8 +22,7 @@ public class NgayChungKhoanPK implements Serializable {
 	@JoinColumn(name = "idChungKhoan")
 	private ChungKhoan chungKhoan;
 
-	public NgayChungKhoanPK() {
-	}
+	public NgayChungKhoanPK() {}
 
 	public NgayChungKhoanPK(String ngayStr, ChungKhoan chungKhoan) throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

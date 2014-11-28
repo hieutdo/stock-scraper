@@ -1,55 +1,50 @@
 package info.hieudt.scraper.fpts;
 
+import info.hieudt.scraper.fpts.domain.Gia;
+import info.hieudt.scraper.fpts.domain.GiaTriGiaoDich;
+import info.hieudt.scraper.fpts.domain.KhoiLuongGiaoDich;
+import info.hieudt.scraper.fpts.domain.NgayChungKhoanPK;
+import info.hieudt.scraper.fpts.domain.ThongKeGia;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import info.hieudt.scraper.fpts.domain.ChungKhoan;
 import info.hieudt.scraper.fpts.util.HibernateUtil;
 
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * Hello world!
  */
 public class App {
-	public static void main(String[] args) throws ParseException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+	public static void main(String[] args) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
 
 /*
-		ChungKhoan chungKhoan = new ChungKhoan("AAM");
-		session.save(chungKhoan);
+			session.beginTransaction();
 
-		ThongKeGia thongKeGia = new ThongKeGia();
-		thongKeGia.setPk(new NgayChungKhoanPK("27/11/2014", chungKhoan));
-		// gia
-		thongKeGia.setGiaThamChieu(14.8);
-		thongKeGia.setGiaTran(15.8);
-		thongKeGia.setGiaSan(13.8);
-		thongKeGia.setGiaMoCua(14.7);
-		thongKeGia.setGiaDongCua(14.8);
-		thongKeGia.setGiaCaoNhat(14.9);
-		thongKeGia.setGiaThapNhat(14.7);
-		thongKeGia.setGiaTrungBinh(0.0);
-		// khoi luong giao dich
-		thongKeGia.setKlgdKhopLenh(3830);
-		thongKeGia.setKlgdThoaThuan(0);
-		thongKeGia.setKlgdTongCong(3830);
-		// gia tri giao dich
-		thongKeGia.setGtgdKhopLenh(57.0);
-		thongKeGia.setGtgdThoaThuan(0.0);
-		thongKeGia.setGtgdTongCong(57.0);
+			ChungKhoan chungKhoan = new ChungKhoan("AAM");
+			session.save(chungKhoan);
 
-		session.save(thongKeGia);
+			NgayChungKhoanPK ngayChungKhoanPK = new NgayChungKhoanPK("27/11/2014", chungKhoan);
+			Gia gia = new Gia(14.8, 15.8, 13.8, 14.7, 14.8, 14.9, 14.7, 0.0);
+			KhoiLuongGiaoDich khoiLuongGiaoDich = new KhoiLuongGiaoDich(3830, 0, 3830);
+			GiaTriGiaoDich giaTriGiaoDich = new GiaTriGiaoDich(57.0, 0.0, 57.0);
+
+			ThongKeGia thongKeGia = new ThongKeGia(ngayChungKhoanPK, gia, khoiLuongGiaoDich, giaTriGiaoDich);
+			session.save(thongKeGia);
+
+			session.getTransaction().commit();
 */
 
-		Query query = session.createQuery("from ChungKhoan ck where ck.maChungKhoan = :maChungKhoan");
-		query.setParameter("maChungKhoan", "AAM");
-
-//		List chungKhoanList = query.list();
-		ChungKhoan chungKhoan = (ChungKhoan) query.uniqueResult();
-
-		session.getTransaction().commit();
-
+			Query query = session.createQuery("from ChungKhoan ck where ck.maChungKhoan = :maChungKhoan");
+			query.setParameter("maChungKhoan", "AAM");
+			ChungKhoan chungKhoan = (ChungKhoan) query.uniqueResult();
+			System.out.print(chungKhoan);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.exit(0);
 	}
 }

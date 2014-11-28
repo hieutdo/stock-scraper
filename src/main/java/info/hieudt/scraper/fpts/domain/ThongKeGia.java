@@ -1,5 +1,6 @@
 package info.hieudt.scraper.fpts.domain;
 
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,22 +19,23 @@ public class ThongKeGia implements Serializable {
 	@EmbeddedId
 	private NgayChungKhoanPK pk = new NgayChungKhoanPK();
 
-	private Double giaThamChieu;
-	private Double giaTran;
-	private Double giaSan;
-	private Double giaMoCua;
-	private Double giaDongCua;
-	private Double giaCaoNhat;
-	private Double giaThapNhat;
-	private Double giaTrungBinh;
+	@Embedded
+	private Gia gia;
 
-	private Integer klgdKhopLenh;
-	private Integer klgdThoaThuan;
-	private Integer klgdTongCong;
+	@Embedded
+	private KhoiLuongGiaoDich khoiLuongGiaoDich;
 
-	private Double gtgdKhopLenh;
-	private Double gtgdThoaThuan;
-	private Double gtgdTongCong;
+	@Embedded
+	private GiaTriGiaoDich giaTriGiaoDich;
+
+	public ThongKeGia() {}
+
+	public ThongKeGia(NgayChungKhoanPK pk, Gia gia, KhoiLuongGiaoDich khoiLuongGiaoDich, GiaTriGiaoDich giaTriGiaoDich) {
+		this.pk = pk;
+		this.gia = gia;
+		this.khoiLuongGiaoDich = khoiLuongGiaoDich;
+		this.giaTriGiaoDich = giaTriGiaoDich;
+	}
 
 	public NgayChungKhoanPK getPk() {
 		return pk;
@@ -61,115 +63,27 @@ public class ThongKeGia implements Serializable {
 		pk.setChungKhoan(chungKhoan);
 	}
 
-	public Double getGiaThamChieu() {
-		return giaThamChieu;
+	public Gia getGia() {
+		return gia;
 	}
 
-	public void setGiaThamChieu(Double giaThamChieu) {
-		this.giaThamChieu = giaThamChieu;
+	public void setGia(Gia gia) {
+		this.gia = gia;
 	}
 
-	public Double getGiaTran() {
-		return giaTran;
+	public KhoiLuongGiaoDich getKhoiLuongGiaoDich() {
+		return khoiLuongGiaoDich;
 	}
 
-	public void setGiaTran(Double giaTran) {
-		this.giaTran = giaTran;
+	public void setKhoiLuongGiaoDich(KhoiLuongGiaoDich khoiLuongGiaoDich) {
+		this.khoiLuongGiaoDich = khoiLuongGiaoDich;
 	}
 
-	public Double getGiaSan() {
-		return giaSan;
+	public GiaTriGiaoDich getGiaTriGiaoDich() {
+		return giaTriGiaoDich;
 	}
 
-	public void setGiaSan(Double giaSan) {
-		this.giaSan = giaSan;
-	}
-
-	public Double getGiaMoCua() {
-		return giaMoCua;
-	}
-
-	public void setGiaMoCua(Double giaMoCua) {
-		this.giaMoCua = giaMoCua;
-	}
-
-	public Double getGiaDongCua() {
-		return giaDongCua;
-	}
-
-	public void setGiaDongCua(Double giaDongCua) {
-		this.giaDongCua = giaDongCua;
-	}
-
-	public Double getGiaCaoNhat() {
-		return giaCaoNhat;
-	}
-
-	public void setGiaCaoNhat(Double giaCaoNhat) {
-		this.giaCaoNhat = giaCaoNhat;
-	}
-
-	public Double getGiaThapNhat() {
-		return giaThapNhat;
-	}
-
-	public void setGiaThapNhat(Double giaThapNhat) {
-		this.giaThapNhat = giaThapNhat;
-	}
-
-	public Double getGiaTrungBinh() {
-		return giaTrungBinh;
-	}
-
-	public void setGiaTrungBinh(Double giaTrungBinh) {
-		this.giaTrungBinh = giaTrungBinh;
-	}
-
-	public Integer getKlgdKhopLenh() {
-		return klgdKhopLenh;
-	}
-
-	public void setKlgdKhopLenh(Integer klgdKhopLenh) {
-		this.klgdKhopLenh = klgdKhopLenh;
-	}
-
-	public Integer getKlgdThoaThuan() {
-		return klgdThoaThuan;
-	}
-
-	public void setKlgdThoaThuan(Integer klgdThoaThuan) {
-		this.klgdThoaThuan = klgdThoaThuan;
-	}
-
-	public Integer getKlgdTongCong() {
-		return klgdTongCong;
-	}
-
-	public void setKlgdTongCong(Integer klgdTongCong) {
-		this.klgdTongCong = klgdTongCong;
-	}
-
-	public Double getGtgdKhopLenh() {
-		return gtgdKhopLenh;
-	}
-
-	public void setGtgdKhopLenh(Double gtgdKhopLenh) {
-		this.gtgdKhopLenh = gtgdKhopLenh;
-	}
-
-	public Double getGtgdThoaThuan() {
-		return gtgdThoaThuan;
-	}
-
-	public void setGtgdThoaThuan(Double gtgdThoaThuan) {
-		this.gtgdThoaThuan = gtgdThoaThuan;
-	}
-
-	public Double getGtgdTongCong() {
-		return gtgdTongCong;
-	}
-
-	public void setGtgdTongCong(Double gtgdTongCong) {
-		this.gtgdTongCong = gtgdTongCong;
+	public void setGiaTriGiaoDich(GiaTriGiaoDich giaTriGiaoDich) {
+		this.giaTriGiaoDich = giaTriGiaoDich;
 	}
 }
