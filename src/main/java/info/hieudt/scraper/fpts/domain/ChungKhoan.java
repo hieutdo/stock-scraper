@@ -17,11 +17,11 @@ public class ChungKhoan {
     @Column(length = 10)
     private SanGiaoDich sanGiaoDich;
 
-    @OneToMany(mappedBy = "pk.chungKhoan", cascade = CascadeType.ALL)
-    private List<ThongKeGia> thongKeGia = new ArrayList<>();
-
-    @OneToMany(mappedBy = "pk.chungKhoan", cascade = CascadeType.ALL)
-    private List<ThongKeDatLenh> thongKeDatLenh = new ArrayList<>();
+//    @OneToMany(mappedBy = "pk.chungKhoan", cascade = CascadeType.ALL)
+//    private List<ThongKeGia> thongKeGia = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "pk.chungKhoan", cascade = CascadeType.ALL)
+//    private List<ThongKeDatLenh> thongKeDatLenh = new ArrayList<>();
 
     public ChungKhoan() {
     }
@@ -55,19 +55,30 @@ public class ChungKhoan {
         this.sanGiaoDich = sanGiaoDich;
     }
 
-    public List<ThongKeGia> getThongKeGia() {
-        return thongKeGia;
-    }
+//    public List<ThongKeGia> getThongKeGia() {
+//        return thongKeGia;
+//    }
+//
+//    public void setThongKeGia(List<ThongKeGia> thongKeGia) {
+//        this.thongKeGia = thongKeGia;
+//    }
+//
+//    public List<ThongKeDatLenh> getThongKeDatLenh() {
+//        return thongKeDatLenh;
+//    }
+//
+//    public void setThongKeDatLenh(List<ThongKeDatLenh> thongKeDatLenh) {
+//        this.thongKeDatLenh = thongKeDatLenh;
+//    }
 
-    public void setThongKeGia(List<ThongKeGia> thongKeGia) {
-        this.thongKeGia = thongKeGia;
-    }
-
-    public List<ThongKeDatLenh> getThongKeDatLenh() {
-        return thongKeDatLenh;
-    }
-
-    public void setThongKeDatLenh(List<ThongKeDatLenh> thongKeDatLenh) {
-        this.thongKeDatLenh = thongKeDatLenh;
+    @Override
+    public String toString() {
+        return "ChungKhoan{" +
+                "idChungKhoan=" + idChungKhoan +
+                ", maChungKhoan='" + maChungKhoan + '\'' +
+                ", sanGiaoDich=" + sanGiaoDich +
+//                ", thongKeGia=" + thongKeGia +
+//                ", thongKeDatLenh=" + thongKeDatLenh +
+                '}';
     }
 }

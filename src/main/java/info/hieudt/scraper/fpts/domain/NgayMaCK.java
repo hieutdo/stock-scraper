@@ -12,26 +12,41 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Embeddable
-public class ThongKeIndexId implements Serializable {
-    private static final long serialVersionUID = 7535866112230943065L;
+public class NgayMaCK implements Serializable {
+    private static final long serialVersionUID = -1702548745396373333L;
 
     @Type(type = "date")
     private Date ngay;
+
+    @Column(length = 10)
+    private String maChungKhoan;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
     private SanGiaoDich sanGiaoDich;
 
-    private Byte dot;
-
-    public ThongKeIndexId() {
+    public NgayMaCK() {
     }
 
-    public ThongKeIndexId(String ngayStr, SanGiaoDich sanGiaoDich, Byte dot) throws ParseException {
+    public NgayMaCK(NgayMaCK other) {
+        this.sanGiaoDich = other.sanGiaoDich;
+        this.maChungKhoan = other.maChungKhoan;
+        this.ngay = other.ngay;
+    }
+
+    public NgayMaCK(String ngayStr, String maChungKhoan, SanGiaoDich sanGiaoDich) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         this.ngay = dateFormat.parse(ngayStr);
+        this.maChungKhoan = maChungKhoan;
         this.sanGiaoDich = sanGiaoDich;
-        this.dot = dot;
+    }
+
+    public String getMaChungKhoan() {
+        return maChungKhoan;
+    }
+
+    public void setMaChungKhoan(String chungKhoan) {
+        this.maChungKhoan = chungKhoan;
     }
 
     public Date getNgay() {
@@ -50,24 +65,15 @@ public class ThongKeIndexId implements Serializable {
         this.sanGiaoDich = sanGiaoDich;
     }
 
-    public Byte getDot() {
-        return dot;
-    }
-
-    public void setDot(Byte dot) {
-        this.dot = dot;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ThongKeIndexId)) return false;
+        if (!(o instanceof NgayMaCK)) return false;
 
-        ThongKeIndexId that = (ThongKeIndexId) o;
+        NgayMaCK that = (NgayMaCK) o;
 
-        if (dot != null ? !dot.equals(that.dot) : that.dot != null) return false;
+        if (maChungKhoan != null ? !maChungKhoan.equals(that.maChungKhoan) : that.maChungKhoan != null) return false;
         if (ngay != null ? !ngay.equals(that.ngay) : that.ngay != null) return false;
-        if (sanGiaoDich != that.sanGiaoDich) return false;
 
         return true;
     }
@@ -75,17 +81,16 @@ public class ThongKeIndexId implements Serializable {
     @Override
     public int hashCode() {
         int result = ngay != null ? ngay.hashCode() : 0;
-        result = 31 * result + (sanGiaoDich != null ? sanGiaoDich.hashCode() : 0);
-        result = 31 * result + (dot != null ? dot.hashCode() : 0);
+        result = 31 * result + (maChungKhoan != null ? maChungKhoan.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "ThongKeIndexId{" +
+        return "NgayMaCK{" +
                 "ngay=" + ngay +
+                ", maChungKhoan='" + maChungKhoan + '\'' +
                 ", sanGiaoDich=" + sanGiaoDich +
-                ", dot=" + dot +
                 '}';
     }
 }

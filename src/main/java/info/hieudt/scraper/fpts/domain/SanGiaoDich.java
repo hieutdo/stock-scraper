@@ -1,7 +1,7 @@
 package info.hieudt.scraper.fpts.domain;
 
 public enum SanGiaoDich {
-    HOSE(1), HNX(2), UPCOM(4); //, VN30, HNX30;
+    HOSE(1), HNX(2), VN30(5);
 
     private int value;
 

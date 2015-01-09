@@ -91,4 +91,18 @@ public class Gia {
     public void setGiaTrungBinh(Double giaTrungBinh) {
         this.giaTrungBinh = giaTrungBinh;
     }
+
+    @Override
+    public String toString() {
+        return "Gia{" +
+                "giaThamChieu=" + giaThamChieu +
+                ", giaTran=" + giaTran +
+                ", giaSan=" + giaSan +
+                ", giaMoCua=" + giaMoCua +
+                ", giaDongCua=" + giaDongCua +
+                ", giaCaoNhat=" + giaCaoNhat +
+                ", giaThapNhat=" + giaThapNhat +
+                ", giaTrungBinh=" + giaTrungBinh +
+                '}';
+    }
 }

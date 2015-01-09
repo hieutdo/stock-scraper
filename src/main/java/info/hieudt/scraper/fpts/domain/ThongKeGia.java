@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 @Entity
 public class ThongKeGia {
     @EmbeddedId
-    private ThongKeGiaId pk = new ThongKeGiaId();
+    private NgayMaCK pk;
 
     @Embedded
     private Gia gia;
@@ -21,18 +21,18 @@ public class ThongKeGia {
     public ThongKeGia() {
     }
 
-    public ThongKeGia(ThongKeGiaId pk, Gia gia, KhoiLuongGiaoDich khoiLuongGiaoDich, GiaTriGiaoDich giaTriGiaoDich) {
+    public ThongKeGia(NgayMaCK pk, Gia gia, KhoiLuongGiaoDich khoiLuongGiaoDich, GiaTriGiaoDich giaTriGiaoDich) {
         this.pk = pk;
         this.gia = gia;
         this.khoiLuongGiaoDich = khoiLuongGiaoDich;
         this.giaTriGiaoDich = giaTriGiaoDich;
     }
 
-    public ThongKeGiaId getPk() {
+    public NgayMaCK getPk() {
         return pk;
     }
 
-    public void setPk(ThongKeGiaId pk) {
+    public void setPk(NgayMaCK pk) {
         this.pk = pk;
     }
 
@@ -58,5 +58,15 @@ public class ThongKeGia {
 
     public void setGiaTriGiaoDich(GiaTriGiaoDich giaTriGiaoDich) {
         this.giaTriGiaoDich = giaTriGiaoDich;
+    }
+
+    @Override
+    public String toString() {
+        return "ThongKeGia{" +
+                "pk=" + pk +
+                ", gia=" + gia +
+                ", khoiLuongGiaoDich=" + khoiLuongGiaoDich +
+                ", giaTriGiaoDich=" + giaTriGiaoDich +
+                '}';
     }
 }

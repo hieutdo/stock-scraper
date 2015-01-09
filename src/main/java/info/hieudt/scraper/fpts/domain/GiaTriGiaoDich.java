@@ -46,4 +46,13 @@ public class GiaTriGiaoDich {
     public void setTongCong(Double tongCong) {
         this.tongCong = tongCong;
     }
+
+    @Override
+    public String toString() {
+        return "GiaTriGiaoDich{" +
+                "khopLenh=" + khopLenh +
+                ", thoaThuan=" + thoaThuan +
+                ", tongCong=" + tongCong +
+                '}';
+    }
 }

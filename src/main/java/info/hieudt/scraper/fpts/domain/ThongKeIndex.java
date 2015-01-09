@@ -51,4 +51,14 @@ public class ThongKeIndex {
     public void setTongKhoiLuongGiaoDich(Double tongKhoiLuongGiaoDich) {
         this.tongKhoiLuongGiaoDich = tongKhoiLuongGiaoDich;
     }
+
+    @Override
+    public String toString() {
+        return "ThongKeIndex{" +
+                "pk=" + pk +
+                ", chiSoIndex=" + chiSoIndex +
+                ", tongGiaTriGiaoDich=" + tongGiaTriGiaoDich +
+                ", tongKhoiLuongGiaoDich=" + tongKhoiLuongGiaoDich +
+                '}';
+    }
 }

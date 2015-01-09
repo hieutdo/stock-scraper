@@ -46,4 +46,13 @@ public class KhoiLuongGiaoDich {
     public void setTongCong(Integer tongCong) {
         this.tongCong = tongCong;
     }
+
+    @Override
+    public String toString() {
+        return "KhoiLuongGiaoDich{" +
+                "khopLenh=" + khopLenh +
+                ", thoaThuan=" + thoaThuan +
+                ", tongCong=" + tongCong +
+                '}';
+    }
 }

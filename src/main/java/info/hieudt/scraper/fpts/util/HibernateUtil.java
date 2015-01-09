@@ -1,5 +1,6 @@
 package info.hieudt.scraper.fpts.util;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -21,5 +22,9 @@ public class HibernateUtil {
 
 	public static void shutdown() {
 		getSessionFactory().close();
+	}
+
+	public static int deleteTable(Session session, String tableName) {
+		return session.createQuery("delete from " + tableName).executeUpdate();
 	}
 }
