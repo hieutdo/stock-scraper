@@ -20,7 +20,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 public class App {
     private static final String BASE_DIR = "data";
@@ -61,31 +64,22 @@ public class App {
         // generateDuLieuThiTruongTheoNam();
         // generateDuLieuCoPhieu();
 
-//        generateBienTheoNgay();
-//        generateBienTheoThang(thang1nam2007);
-//        generateBienTheoQuy(thang1nam2007);
-//        generateBienTheoNam(thang1nam2007);
-
-        //exportBienTheoNgay("excel/bien.theo.ngay.full.xlsx", ngayBatDau, ngayKetThuc);
-        //exportBienTheoThang("excel/bien.theo.thang.full.xlsx", namBatDau, namKetThuc);
-        //exportBienTheoQuy("excel/bien.theo.quy.full.xlsx", namBatDau, namKetThuc);
-        //exportBienTheoNam("excel/bien.theo.nam.full.xlsx", namBatDau, namKetThuc);
-
-//        generateBienTheoThang(thang9nam2007);
-//        exportBienTheoNgay("excel/bien.theo.ngay.2007.09.xlsx");
-
-//        generateBienTheoQuy(thang9nam2007);
-//        exportBienTheoQuy("excel/bien.theo.quy.2007.09.xlsx");
-
-//        generateBienTheoNam(thang9nam2007);
-//        exportBienTheoNam("excel/bien.theo.nam.2007.09.xlsx");
+        // generateBienTheoNgay();
+        generateBienTheoThang(ngayBatDau);
+        generateBienTheoQuy(ngayBatDau);
+        generateBienTheoNam(ngayBatDau);
 
         // step 4
-//         exportDuLieuThiTruongTheoNgay();
-//         exportDuLieuThiTruongTheoThang();
-//         exportDuLieuThiTruongTheoQuy();
-//         exportDuLieuThiTruongTheoNam();
-//         exportDuLieuCoPhieu();
+        //exportBienTheoNgay("excel/bien.theo.ngay.lan.3.xlsx", ngayBatDau, ngayKetThuc);
+        //exportBienTheoThang("excel/bien.theo.thang.full.xlsx", namBatDau, namKetThuc);
+        //exportBienTheoQuy("excel/bien.theo.quy.lan.3.xlsx", namBatDau, namKetThuc);
+        //exportBienTheoNam("excel/bien.theo.nam.full.xlsx", namBatDau, namKetThuc);
+
+        //exportDuLieuThiTruongTheoNgay();
+        //exportDuLieuThiTruongTheoThang();
+        //exportDuLieuThiTruongTheoQuy();
+        //exportDuLieuThiTruongTheoNam();
+        //exportDuLieuCoPhieu();
 
         HibernateUtil.shutdown();
 
