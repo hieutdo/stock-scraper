@@ -1919,13 +1919,13 @@ public class App {
                             "b.pk.sanGiaoDich," +
                             "sum(b.R)," +
                             "avg(b.effspread)," +
-                            "exp(avg(log(b.quospread)))," +
+                            "exp(sum(log(b.quospread)) / count(b.quospread))," +
                             "avg(b.phanTramQuospread)," +
-                            "exp(avg(log(b.amihud)))," +
+                            "exp(sum(log(b.amihud)) / count(b.amihud))," +
                             "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
-                            "exp(avg(log(b.depth)))," +
+                            "exp(sum(log(b.depth)) / count(b.depth))," +
                             "avg(b.compositeLiq)," +
                             "avg(b.highlow)) " +
                             "from BienTheoNgay b " +
@@ -2045,7 +2045,9 @@ public class App {
                     E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
                     nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
                      */
-                    Double avgQuos = bienTheoNgayList.stream().collect(Collectors.averagingDouble(BienTheoNgay::getQuospread));
+                    Double avgQuos = bienTheoNgayList.stream()
+                            .filter(bienTheoNgay -> bienTheoNgay.getQuospread() != null)
+                            .collect(Collectors.averagingDouble(BienTheoNgay::getQuospread));
                     if (avgQuos != null) {
                         Double phuongSaiQuosTemp = null;
                         for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
@@ -2069,7 +2071,9 @@ public class App {
                     E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
                     nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
                      */
-                    Double avgDepth = bienTheoNgayList.stream().collect(Collectors.averagingDouble(BienTheoNgay::getDepth));
+                    Double avgDepth = bienTheoNgayList.stream()
+                            .filter(bienTheoNgay -> bienTheoNgay.getDepth() != null)
+                            .collect(Collectors.averagingDouble(BienTheoNgay::getDepth));
                     if (avgDepth != null) {
                         Double phuongSaiDepthTemp = null;
                         for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
@@ -2092,7 +2096,9 @@ public class App {
                     Trong đó Amihudt là Amihud (ngày t trong quý); E(Amihud) là trung bình cộng Amihud của các ngày trong quý.
                     Nghĩa là:  E(Amihud) = [Amihud (ngày thứ 1 của quý) +  Amihud (ngày thứ 2 của quý) + …+ Amihud (ngày thứ t của quý)]/N
                      */
-                    Double avgAmihud = bienTheoNgayList.stream().collect(Collectors.averagingDouble(BienTheoNgay::getAmihud));
+                    Double avgAmihud = bienTheoNgayList.stream()
+                            .filter(bienTheoNgay -> bienTheoNgay.getAmihud() != null)
+                            .collect(Collectors.averagingDouble(BienTheoNgay::getAmihud));
                     if (avgAmihud != null) {
                         Double phuongSaiAmihudTemp = null;
                         for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
