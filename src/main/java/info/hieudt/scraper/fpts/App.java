@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -30,9 +31,19 @@ public class App {
     private static final String GIAO_DICH_KHOP_LENH_DIR = DU_LIEU_LICH_DIR + "/giao-dich-khop-lenh";
     private static final String GIAO_DICH_THOA_THUAN_DIR = DU_LIEU_LICH_DIR + "/giao-dich-thoa-thuan";
 
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static void main(String[] args) {
+    private static Date parseDate(String dateStr) throws ParseException {
+        return dateFormat.parse(dateStr);
+    }
+
+    public static void main(String[] args) throws ParseException {
         Instant start = Instant.now();
+
+        Integer namBatDau = 2007;
+        Integer namKetThuc = 2014;
+        Date ngayBatDau = parseDate(namBatDau + "-01-01");
+        Date ngayKetThuc = parseDate(namKetThuc + "-12-31");
 
         // step 1
         // downloadData();
@@ -49,21 +60,32 @@ public class App {
         // generateDuLieuThiTruongTheoQuy();
         // generateDuLieuThiTruongTheoNam();
         // generateDuLieuCoPhieu();
-        // generateBienTheoNgay();
-        // generateBienTheoThang();
-        // generateBienTheoQuy();
-        // generateBienTheoNam();
+
+//        generateBienTheoNgay();
+//        generateBienTheoThang(thang1nam2007);
+//        generateBienTheoQuy(thang1nam2007);
+//        generateBienTheoNam(thang1nam2007);
+
+        //exportBienTheoNgay("excel/bien.theo.ngay.full.xlsx", ngayBatDau, ngayKetThuc);
+        //exportBienTheoThang("excel/bien.theo.thang.full.xlsx", namBatDau, namKetThuc);
+        //exportBienTheoQuy("excel/bien.theo.quy.full.xlsx", namBatDau, namKetThuc);
+        //exportBienTheoNam("excel/bien.theo.nam.full.xlsx", namBatDau, namKetThuc);
+
+//        generateBienTheoThang(thang9nam2007);
+//        exportBienTheoNgay("excel/bien.theo.ngay.2007.09.xlsx");
+
+//        generateBienTheoQuy(thang9nam2007);
+//        exportBienTheoQuy("excel/bien.theo.quy.2007.09.xlsx");
+
+//        generateBienTheoNam(thang9nam2007);
+//        exportBienTheoNam("excel/bien.theo.nam.2007.09.xlsx");
 
         // step 4
-        // exportDuLieuThiTruongTheoNgay();
-        // exportDuLieuThiTruongTheoThang();
-        // exportDuLieuThiTruongTheoQuy();
-        // exportDuLieuThiTruongTheoNam();
-        // exportDuLieuCoPhieu();
-        // exportBienTheoNgay();
-        exportBienTheoThang();
-        // exportBienTheoQuy();
-        // exportBienTheoNam();
+//         exportDuLieuThiTruongTheoNgay();
+//         exportDuLieuThiTruongTheoThang();
+//         exportDuLieuThiTruongTheoQuy();
+//         exportDuLieuThiTruongTheoNam();
+//         exportDuLieuCoPhieu();
 
         HibernateUtil.shutdown();
 
@@ -620,11 +642,16 @@ public class App {
         }
     }
 
-    private static void exportBienTheoNgay() {
+    private static void exportBienTheoNgay(String outputFileName, Date ngayBatDau, Date ngayKetThuc) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
-            ScrollableResults results = session.createQuery("from BienTheoNgay b order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.ngay desc")
+            ScrollableResults results = session.createQuery(
+                    "from BienTheoNgay b " +
+                            "where b.pk.ngay >= :ngayBatDau and b.pk.ngay <= :ngayKetThuc " +
+                            "order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.ngay desc")
+                    .setDate("ngayBatDau", ngayBatDau)
+                    .setDate("ngayKetThuc", ngayKetThuc)
                     .setReadOnly(true)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
@@ -644,7 +671,7 @@ public class App {
             Cell cell = null;
 
             List<String> headerColumns = Arrays.asList(
-                    "Ngay", "San", "Ma co phieu", "Ri", "Effspread", "Quospread", "%Quospread", "Amihud", "AdAmihud", "Aminvest", "Depth", "CompositeLiq", "Highlow"
+                    "Ngay", "San", "Ma co phieu", "Ri", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest", "Depth", "CompositeLiq", "Highlow"
             );
 
             for (int i = 0; i < headerColumns.size(); i++) {
@@ -711,6 +738,13 @@ public class App {
                     cell.setCellValue(bienTheoNgay.getAmihud());
                 }
 
+                // AmihudMoi
+                cell = row.createCell(++columnIndex);
+                if (bienTheoNgay.getAmihud() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoNgay.getAmihudmoi());
+                }
+
                 // AdAmihud
                 cell = row.createCell(++columnIndex);
                 if (bienTheoNgay.getAdAmihud() != null) {
@@ -751,7 +785,7 @@ public class App {
                 sheet.autoSizeColumn(i);
             }
 
-            FileOutputStream outputStream = new FileOutputStream("excel/bien.theo.ngay.xlsx");
+            FileOutputStream outputStream = new FileOutputStream(outputFileName);
             workbook.write(outputStream);
             outputStream.close();
         } catch (Exception e) {
@@ -761,11 +795,16 @@ public class App {
         }
     }
 
-    private static void exportBienTheoThang() {
+    private static void exportBienTheoThang(String outputFileName, Integer namBatDau, Integer namKetThuc) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
-            ScrollableResults results = session.createQuery("from BienTheoThang b order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.nam desc, b.pk.thang desc")
+            ScrollableResults results = session.createQuery(
+                    "from BienTheoThang b " +
+                            "where b.pk.nam >= :namBatDau and b.pk.nam <= :namKetThuc " +
+                            "order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.nam desc, b.pk.thang desc")
+                    .setInteger("namBatDau", namBatDau)
+                    .setInteger("namKetThuc", namKetThuc)
                     .setReadOnly(true)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
@@ -785,7 +824,7 @@ public class App {
             Cell cell = null;
 
             List<String> headerColumns = Arrays.asList(
-                    "Thang", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AdAmihud", "Aminvest",
+                    "Thang", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
                     "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
                     "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich"
             );
@@ -871,6 +910,13 @@ public class App {
                 if (bienTheoThang.getAmihud() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoThang.getAmihud());
+                }
+
+                // AmihudMoi
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getAmihud() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getAmihudmoi());
                 }
 
                 // AdAmihud
@@ -962,7 +1008,7 @@ public class App {
                 sheet.autoSizeColumn(i);
             }
 
-            FileOutputStream outputStream = new FileOutputStream("excel/bien.theo.thang.xlsx");
+            FileOutputStream outputStream = new FileOutputStream(outputFileName);
             workbook.write(outputStream);
             outputStream.close();
         } catch (Exception e) {
@@ -972,11 +1018,16 @@ public class App {
         }
     }
 
-    private static void exportBienTheoQuy() {
+    private static void exportBienTheoQuy(String outputFileName, Integer namBatDau, Integer namKetThuc) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
-            ScrollableResults results = session.createQuery("from BienTheoQuy b order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.nam desc, b.pk.quy desc")
+            ScrollableResults results = session.createQuery(
+                    "from BienTheoQuy b " +
+                            "where b.pk.nam >= :namBatDau and b.pk.nam <= :namKetThuc " +
+                            "order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.nam desc, b.pk.quy desc")
+                    .setInteger("namBatDau", namBatDau)
+                    .setInteger("namKetThuc", namKetThuc)
                     .setReadOnly(true)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
@@ -996,7 +1047,7 @@ public class App {
             Cell cell = null;
 
             List<String> headerColumns = Arrays.asList(
-                    "Quy", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AdAmihud", "Aminvest",
+                    "Quy", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
                     "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
                     "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich"
             );
@@ -1082,6 +1133,13 @@ public class App {
                 if (bienTheoQuy.getAmihud() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoQuy.getAmihud());
+                }
+
+                // AmihudMoi
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getAmihud() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getAmihudmoi());
                 }
 
                 // AdAmihud
@@ -1173,7 +1231,7 @@ public class App {
                 sheet.autoSizeColumn(i);
             }
 
-            FileOutputStream outputStream = new FileOutputStream("excel/bien.theo.quy.xlsx");
+            FileOutputStream outputStream = new FileOutputStream(outputFileName);
             workbook.write(outputStream);
             outputStream.close();
         } catch (Exception e) {
@@ -1183,11 +1241,16 @@ public class App {
         }
     }
 
-    private static void exportBienTheoNam() {
+    private static void exportBienTheoNam(String outputFileName, Integer namBatDau, Integer namKetThuc) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
-            ScrollableResults results = session.createQuery("from BienTheoNam b order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.nam desc")
+            ScrollableResults results = session.createQuery(
+                    "from BienTheoNam b " +
+                            "where b.pk.nam >= :namBatDau and b.pk.nam <= :namKetThuc " +
+                            "order by b.pk.sanGiaoDich asc, b.pk.maChungKhoan asc, b.pk.nam desc")
+                    .setInteger("namBatDau", namBatDau)
+                    .setInteger("namKetThuc", namKetThuc)
                     .setReadOnly(true)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
@@ -1207,7 +1270,7 @@ public class App {
             Cell cell = null;
 
             List<String> headerColumns = Arrays.asList(
-                    "Nam", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AdAmihud", "Aminvest",
+                    "Nam", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
                     "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
                     "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich"
             );
@@ -1293,6 +1356,13 @@ public class App {
                 if (bienTheoNam.getAmihud() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoNam.getAmihud());
+                }
+
+                // AmihudMoi
+                cell = row.createCell(++columnIndex);
+                if (bienTheoNam.getAmihud() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoNam.getAmihudmoi());
                 }
 
                 // AdAmihud
@@ -1384,7 +1454,7 @@ public class App {
                 sheet.autoSizeColumn(i);
             }
 
-            FileOutputStream outputStream = new FileOutputStream("excel/bien.theo.nam.xlsx");
+            FileOutputStream outputStream = new FileOutputStream(outputFileName);
             workbook.write(outputStream);
             outputStream.close();
         } catch (Exception e) {
@@ -1653,7 +1723,7 @@ public class App {
         }
     }
 
-    private static void generateBienTheoNam() {
+    private static void generateBienTheoNam(Date ngayBatDau) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
@@ -1671,15 +1741,18 @@ public class App {
                             "avg(b.quospread)," +
                             "avg(b.phanTramQuospread)," +
                             "avg(b.amihud)," +
+                            "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
                             "avg(b.depth)," +
                             "avg(b.compositeLiq)," +
                             "avg(b.highlow)) " +
                             "from BienTheoNgay b " +
+                            "where b.pk.ngay >= :ngayBatDau " +
                             "group by b.pk.maChungKhoan, year(b.pk.ngay)")
                     .setReadOnly(true)
                     .setFetchSize(100)
+                    .setDate("ngayBatDau", ngayBatDau)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
             while (results.next()) {
@@ -1835,7 +1908,7 @@ public class App {
         }
     }
 
-    private static void generateBienTheoQuy() {
+    private static void generateBienTheoQuy(Date ngayBatDau) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
@@ -1854,15 +1927,18 @@ public class App {
                             "avg(b.quospread)," +
                             "avg(b.phanTramQuospread)," +
                             "avg(b.amihud)," +
+                            "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
                             "avg(b.depth)," +
                             "avg(b.compositeLiq)," +
                             "avg(b.highlow)) " +
                             "from BienTheoNgay b " +
+                            "where b.pk.ngay >= :ngayBatDau " +
                             "group by b.pk.maChungKhoan, year(b.pk.ngay), quarter(b.pk.ngay)")
                     .setReadOnly(true)
                     .setFetchSize(100)
+                    .setDate("ngayBatDau", ngayBatDau)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
             while (results.next()) {
@@ -2029,7 +2105,7 @@ public class App {
         }
     }
 
-    private static void generateBienTheoThang() {
+    private static void generateBienTheoThang(Date ngayBatDau) {
         StatelessSession session = HibernateUtil.getSessionFactory().openStatelessSession();
 
         try {
@@ -2048,15 +2124,18 @@ public class App {
                             "avg(b.quospread)," +
                             "avg(b.phanTramQuospread)," +
                             "avg(b.amihud)," +
+                            "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
                             "avg(b.depth)," +
                             "avg(b.compositeLiq)," +
                             "avg(b.highlow)) " +
                             "from BienTheoNgay b " +
+                            "where b.pk.ngay >= :ngayBatDau " +
                             "group by b.pk.maChungKhoan, year(b.pk.ngay), month(b.pk.ngay)")
                     .setReadOnly(true)
                     .setFetchSize(100)
+                    .setDate("ngayBatDau", ngayBatDau)
                     .scroll(ScrollMode.FORWARD_ONLY);
 
             while (results.next()) {
