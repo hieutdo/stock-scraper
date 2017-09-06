@@ -64,10 +64,10 @@ public class App {
         // generateDuLieuThiTruongTheoNam();
         // generateDuLieuCoPhieu();
 
-        // generateBienTheoNgay();
-        generateBienTheoThang(ngayBatDau);
-        generateBienTheoQuy(ngayBatDau);
-        generateBienTheoNam(ngayBatDau);
+        //generateBienTheoNgay();
+        //generateBienTheoThang(ngayBatDau);
+        //generateBienTheoQuy(ngayBatDau);
+        //generateBienTheoNam(ngayBatDau);
 
         // step 4
         //exportBienTheoNgay("excel/bien.theo.ngay.lan.3.xlsx", ngayBatDau, ngayKetThuc);
@@ -1918,7 +1918,7 @@ public class App {
                             "b.pk.sanGiaoDich," +
                             "sum(b.R)," +
                             "avg(b.effspread)," +
-                            "avg(b.quospread)," +
+                            "exp(avg(log(b.quospread)))," +
                             "avg(b.phanTramQuospread)," +
                             "avg(b.amihud)," +
                             "avg(b.amihudmoi)," +
@@ -2024,15 +2024,35 @@ public class App {
                      */
                     Double phuongSaiTemp = null;
                     for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
-                        if (bienTheoNgay.getR() != null && bienTheoQuy.getR() != null) {
+                        Double rTheoNgay = bienTheoNgay.getR();
+                        Double rTheoQuy = bienTheoQuy.getR();
+                        if (rTheoNgay != null && rTheoQuy != null) {
                             if (phuongSaiTemp == null) {
                                 phuongSaiTemp = 0.0;
                             }
-                            phuongSaiTemp += Math.pow(bienTheoNgay.getR() - bienTheoQuy.getR(), 2);
+                            phuongSaiTemp += Math.pow(rTheoNgay - rTheoQuy, 2);
                         }
                     }
                     if (phuongSaiTemp != null) {
                         bienTheoQuy.setPhuongSai(phuongSaiTemp / tongSoNgay);
+                    }
+
+                    /*
+                    update lan 3: tinh phuong sai cua Quospread
+                     */
+                    Double phuongSaiQuosTemp = null;
+                    for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
+                        Double quosTheoNgay = bienTheoNgay.getQuospread();
+                        Double quosTheoQuy = bienTheoQuy.getPhanTramQuospread();
+                        if (quosTheoNgay != null && quosTheoQuy != null) {
+                            if (phuongSaiQuosTemp == null) {
+                                phuongSaiQuosTemp = 0.0;
+                            }
+                            phuongSaiQuosTemp += Math.pow(quosTheoNgay - quosTheoQuy, 2);
+                        }
+                    }
+                    if (phuongSaiQuosTemp != null) {
+                        bienTheoQuy.setPhuongSaiQuospread(phuongSaiQuosTemp / tongSoNgay);
                     }
 
                     /*

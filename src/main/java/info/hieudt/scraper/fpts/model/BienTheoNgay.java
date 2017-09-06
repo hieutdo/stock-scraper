@@ -43,8 +43,8 @@ public class BienTheoNgay {
 
         tinhR();
         tinhEffspread();
-        tinhQuospread();
         tinhPhanTramQuospread();
+        tinhQuospread();
         tinhAmihud();
         tinhAmihudMoi();
         tinhAdAmihud();
@@ -93,16 +93,19 @@ public class BienTheoNgay {
     }
 
     private void tinhQuospread() {
+        // update lan 3: Quospread dc tinh giong phanTramQuospread
+        this.quospread = this.phanTramQuospread;
+
         /*
         Ký hiệu: Quospread(3) (tính theo ngày, tháng, quý, năm)
         Quospread = Giá chào bán – Giá hỏi mua
          */
-        Double giaChaoBan = coPhieu.getGiaChaoBan();
-        Double giaHoiMua = coPhieu.getGiaHoiMua();
+        //Double giaChaoBan = coPhieu.getGiaChaoBan();
+        //Double giaHoiMua = coPhieu.getGiaHoiMua();
 
-        if (giaChaoBan != null && giaHoiMua != null) {
-            this.quospread = giaChaoBan - giaHoiMua;
-        }
+        //if (giaChaoBan != null && giaHoiMua != null) {
+        //    this.quospread = giaChaoBan - giaHoiMua;
+        //}
     }
 
     private void tinhPhanTramQuospread() {
