@@ -125,15 +125,18 @@ public class BienTheoNgay {
     private void tinhAmihud() {
         /*
         Ký hiệu: Amihud(5) (tính theo ngày, tháng, quý, năm)
-        Amihud(5) = 106 . |Ri|/Vi
-        Trong đó: Vi = Giá trị giao dịch tổng cộng
-        nếu Vi == 0 thì Amihud(5) = null
-        Theo tháng (quý, năm): tính trung bình giá trị Amihud các ngày trong tháng (quý, năm)
+        Amihud(5) =  |Rt|/Vt
+        Trong đó: Vt = giá đóng cửa tại ngày t x khối lượng giao dịch lấy cột tổng cộng tại ngày t,
+        Rt là tỷ suất sinh lợi cổ phiếu tại ngày t = (Giá đóng cửa ngày t  - giá đóng của ngày t-1)/Giá đóng cửa ngày t-1
         */
-        Double giaTriGiaoDichTongCong = coPhieu.getGiaTriGiaoDichTongCong();
+        Integer khoiLuongGiaoDichTongCong = coPhieu.getKhoiLuongGiaoDichTongCong();
+        Double giaDongCua = coPhieu.getGiaDongCua();
 
-        if (giaTriGiaoDichTongCong != null && giaTriGiaoDichTongCong != 0 && this.R != null) {
-            this.amihud = Math.pow(10, 6) * abs(this.R) / giaTriGiaoDichTongCong;
+        if (khoiLuongGiaoDichTongCong != null && giaDongCua != null && this.R != null) {
+            Double V = giaDongCua * khoiLuongGiaoDichTongCong;
+            if (V != 0) {
+                this.amihud = abs(this.R) / V;
+            }
         }
     }
 

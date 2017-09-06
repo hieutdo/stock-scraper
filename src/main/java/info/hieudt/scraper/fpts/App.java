@@ -1921,7 +1921,7 @@ public class App {
                             "avg(b.effspread)," +
                             "exp(avg(log(b.quospread)))," +
                             "avg(b.phanTramQuospread)," +
-                            "avg(b.amihud)," +
+                            "exp(avg(log(b.amihud)))," +
                             "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
@@ -2085,6 +2085,30 @@ public class App {
                             bienTheoQuy.setPhuongSaiDepth(phuongSaiDepthTemp / tongSoNgay);
                         }
                     }
+
+                    /*
+                    update lan 3: tinh phuong sai cua Amihud
+                    Phương sai của Amihud = (1/N) ∑(Amihudt – E(Amihud))2
+                    Trong đó Amihudt là Amihud (ngày t trong quý); E(Amihud) là trung bình cộng Amihud của các ngày trong quý.
+                    Nghĩa là:  E(Amihud) = [Amihud (ngày thứ 1 của quý) +  Amihud (ngày thứ 2 của quý) + …+ Amihud (ngày thứ t của quý)]/N
+                     */
+                    Double avgAmihud = bienTheoNgayList.stream().collect(Collectors.averagingDouble(BienTheoNgay::getAmihud));
+                    if (avgAmihud != null) {
+                        Double phuongSaiAmihudTemp = null;
+                        for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
+                            Double amihudTheoNgay = bienTheoNgay.getAmihud();
+                            if (amihudTheoNgay != null) {
+                                if (phuongSaiAmihudTemp == null) {
+                                    phuongSaiAmihudTemp = 0.0;
+                                }
+                                phuongSaiAmihudTemp += Math.pow(amihudTheoNgay - avgAmihud, 2);
+                            }
+                        }
+                        if (phuongSaiAmihudTemp != null) {
+                            bienTheoQuy.setPhuongSaiAmihud(phuongSaiAmihudTemp / tongSoNgay);
+                        }
+                    }
+
                     /*
                     Zeros(10)
                     Ký hiệu: Zeros(10) (chỉ tính theo tháng, quý và năm)
