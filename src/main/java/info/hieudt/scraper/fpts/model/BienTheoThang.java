@@ -5,7 +5,6 @@ import info.hieudt.scraper.fpts.domain.ThangMaCK;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 
 @Entity
 public class BienTheoThang {
@@ -17,6 +16,7 @@ public class BienTheoThang {
     protected Double quospread;
     protected Double phanTramQuospread;
     protected Double amihud;
+    protected Double amihudmoi;
     protected Double adAmihud;
     protected Double aminvest;
     protected Double depth;
@@ -39,13 +39,14 @@ public class BienTheoThang {
     public BienTheoThang() {
     }
 
-    public BienTheoThang(Integer nam, Integer thang, String maChungKhoan, SanGiaoDich sanGiaoDich, Double R, Double effspread, Double quospread, Double phanTramQuospread, Double amihud, Double adAmihud, Double aminvest, Double depth, Double compositeLiq, Double highlow) {
+    public BienTheoThang(Integer nam, Integer thang, String maChungKhoan, SanGiaoDich sanGiaoDich, Double R, Double effspread, Double quospread, Double phanTramQuospread, Double amihud, Double amihudmoi, Double adAmihud, Double aminvest, Double depth, Double compositeLiq, Double highlow) {
         this.pk = new ThangMaCK(nam, thang, maChungKhoan, sanGiaoDich);
         this.R = R;
         this.effspread = effspread;
         this.quospread = quospread;
         this.phanTramQuospread = phanTramQuospread;
         this.amihud = amihud;
+        this.amihudmoi = amihudmoi;
         this.adAmihud = adAmihud;
         this.aminvest = aminvest;
         this.depth = depth;
@@ -99,6 +100,14 @@ public class BienTheoThang {
 
     public void setAmihud(Double amihud) {
         this.amihud = amihud;
+    }
+
+    public Double getAmihudmoi() {
+        return amihudmoi;
+    }
+
+    public void setAmihudmoi(Double amihudmoi) {
+        this.amihudmoi = amihudmoi;
     }
 
     public Double getAdAmihud() {
@@ -230,6 +239,7 @@ public class BienTheoThang {
                 ", quospread=" + quospread +
                 ", phanTramQuospread=" + phanTramQuospread +
                 ", amihud=" + amihud +
+                ", amihudmoi=" + amihudmoi +
                 ", adAmihud=" + adAmihud +
                 ", aminvest=" + aminvest +
                 ", depth=" + depth +

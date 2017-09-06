@@ -16,6 +16,7 @@ public class BienTheoNgay {
     private Double quospread;
     private Double phanTramQuospread;
     private Double amihud;
+    private Double amihudmoi;
     private Double adAmihud;
     private Double aminvest;
     private Double depth;
@@ -45,6 +46,7 @@ public class BienTheoNgay {
         tinhQuospread();
         tinhPhanTramQuospread();
         tinhAmihud();
+        tinhAmihudMoi();
         tinhAdAmihud();
         tinhAminvest();
         tinhDepth();
@@ -129,6 +131,20 @@ public class BienTheoNgay {
 
         if (giaTriGiaoDichTongCong != null && giaTriGiaoDichTongCong != 0 && this.R != null) {
             this.amihud = Math.pow(10, 6) * abs(this.R) / giaTriGiaoDichTongCong;
+        }
+    }
+
+    private void tinhAmihudMoi() {
+        /*
+        Ký hiệu: Amihudmoi(5) (tính theo ngày, tháng, quý, năm)
+        Amihudmoi(5) = 106 . |Ri|/(giá đóng cửa x khối lượng giao dịch lấy cột tổng cộng)
+        Theo tháng (quý, năm): tính trung bình giá trị Amihudmoi các ngày trong tháng (quý, năm)
+        */
+        Integer khoiLuongGiaoDichTongCong = coPhieu.getKhoiLuongGiaoDichTongCong();
+        Double giaDongCua = coPhieu.getGiaDongCua();
+
+        if (khoiLuongGiaoDichTongCong != null && khoiLuongGiaoDichTongCong != 0 && this.R != null && giaDongCua != null) {
+            this.amihudmoi = Math.pow(10, 6) * abs(this.R) / (giaDongCua * khoiLuongGiaoDichTongCong);
         }
     }
 
@@ -276,6 +292,14 @@ public class BienTheoNgay {
         this.amihud = amihud;
     }
 
+    public Double getAmihudmoi() {
+        return amihudmoi;
+    }
+
+    public void setAmihudmoi(Double amihudmoi) {
+        this.amihudmoi = amihudmoi;
+    }
+
     public Double getAdAmihud() {
         return adAmihud;
     }
@@ -349,6 +373,7 @@ public class BienTheoNgay {
                 ", quospread=" + quospread +
                 ", phanTramQuospread=" + phanTramQuospread +
                 ", amihud=" + amihud +
+                ", amihudmoi=" + amihudmoi +
                 ", adAdmihud=" + adAmihud +
                 ", aminvest=" + aminvest +
                 ", depth=" + depth +
