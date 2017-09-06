@@ -145,7 +145,7 @@ public class DataUtil {
         params.put("a", "2");
         params.put("t", "2");
         params.put("b", "01/01/2007");
-        params.put("e", "30/11/2014");
+        params.put("e", "06/09/2016");
 
         System.out.println("Downloading DU LIEU LICH SU: " + url);
 
@@ -206,7 +206,7 @@ public class DataUtil {
         params.put("a", "1");
         params.put("t", "0");
         params.put("b", "01/01/2007");
-        params.put("e", "11/03/2014");
+        params.put("e", "06/09/2016");
 
         System.out.println("Downloading THONG KE INDEX: " + url);
 
