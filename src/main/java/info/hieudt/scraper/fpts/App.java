@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class App {
     private static final String BASE_DIR = "data";
@@ -1924,7 +1925,7 @@ public class App {
                             "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
-                            "avg(b.depth)," +
+                            "exp(avg(log(b.depth)))," +
                             "avg(b.compositeLiq)," +
                             "avg(b.highlow)) " +
                             "from BienTheoNgay b " +
@@ -2039,22 +2040,51 @@ public class App {
 
                     /*
                     update lan 3: tinh phuong sai cua Quospread
+                    Phương sai của Quos = (1/N) ∑(Quost – E(Quos))2
+                    Trong đó Quost là Quos (ngày t trong quý); N là số ngày tính Quos trong quý;
+                    E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
+                    nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
                      */
-                    Double phuongSaiQuosTemp = null;
-                    for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
-                        Double quosTheoNgay = bienTheoNgay.getQuospread();
-                        Double quosTheoQuy = bienTheoQuy.getPhanTramQuospread();
-                        if (quosTheoNgay != null && quosTheoQuy != null) {
-                            if (phuongSaiQuosTemp == null) {
-                                phuongSaiQuosTemp = 0.0;
+                    Double avgQuos = bienTheoNgayList.stream().collect(Collectors.averagingDouble(BienTheoNgay::getQuospread));
+                    if (avgQuos != null) {
+                        Double phuongSaiQuosTemp = null;
+                        for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
+                            Double quosTheoNgay = bienTheoNgay.getQuospread();
+                            if (quosTheoNgay != null) {
+                                if (phuongSaiQuosTemp == null) {
+                                    phuongSaiQuosTemp = 0.0;
+                                }
+                                phuongSaiQuosTemp += Math.pow(quosTheoNgay - avgQuos, 2);
                             }
-                            phuongSaiQuosTemp += Math.pow(quosTheoNgay - quosTheoQuy, 2);
+                        }
+                        if (phuongSaiQuosTemp != null) {
+                            bienTheoQuy.setPhuongSaiQuospread(phuongSaiQuosTemp / tongSoNgay);
                         }
                     }
-                    if (phuongSaiQuosTemp != null) {
-                        bienTheoQuy.setPhuongSaiQuospread(phuongSaiQuosTemp / tongSoNgay);
-                    }
 
+                    /*
+                    update lan 3: tinh phuong sai cua Depth
+                    Phương sai của Quos = (1/N) ∑(Quost – E(Quos))2
+                    Trong đó Quost là Quos (ngày t trong quý); N là số ngày tính Quos trong quý;
+                    E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
+                    nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
+                     */
+                    Double avgDepth = bienTheoNgayList.stream().collect(Collectors.averagingDouble(BienTheoNgay::getDepth));
+                    if (avgDepth != null) {
+                        Double phuongSaiDepthTemp = null;
+                        for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
+                            Double depthTheoNgay = bienTheoNgay.getDepth();
+                            if (depthTheoNgay != null) {
+                                if (phuongSaiDepthTemp == null) {
+                                    phuongSaiDepthTemp = 0.0;
+                                }
+                                phuongSaiDepthTemp += Math.pow(depthTheoNgay - avgDepth, 2);
+                            }
+                        }
+                        if (phuongSaiDepthTemp != null) {
+                            bienTheoQuy.setPhuongSaiDepth(phuongSaiDepthTemp / tongSoNgay);
+                        }
+                    }
                     /*
                     Zeros(10)
                     Ký hiệu: Zeros(10) (chỉ tính theo tháng, quý và năm)

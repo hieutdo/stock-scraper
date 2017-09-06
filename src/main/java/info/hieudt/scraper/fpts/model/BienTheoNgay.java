@@ -196,7 +196,7 @@ public class BienTheoNgay {
         Double khoiLuongGiaHoiMua = coPhieu.getKhoiLuongGiaHoiMua();
 
         if (giaChaoBan != null && khoiLuongGiaChaoBan != null && giaHoiMua != null && khoiLuongGiaHoiMua != null) {
-            this.depth = giaChaoBan * khoiLuongGiaChaoBan + coPhieu.getGiaHoiMua() * khoiLuongGiaHoiMua;
+            this.depth = giaChaoBan * khoiLuongGiaChaoBan + giaHoiMua * khoiLuongGiaHoiMua;
         }
     }
 

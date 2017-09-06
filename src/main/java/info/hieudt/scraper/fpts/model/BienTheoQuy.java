@@ -28,6 +28,7 @@ public class BienTheoQuy {
     protected Double zeros2;
     protected Double phuongSai;
     protected Double phuongSaiQuospread;
+    protected Double phuongSaiDepth;
 
     protected Long tongKhoiLuongGiaoDich;
     protected Double tongGiaTriGiaoDich;
@@ -237,6 +238,14 @@ public class BienTheoQuy {
 
     public void setPhuongSaiQuospread(Double phuongSaiQuospread) {
         this.phuongSaiQuospread = phuongSaiQuospread;
+    }
+
+    public Double getPhuongSaiDepth() {
+        return phuongSaiDepth;
+    }
+
+    public void setPhuongSaiDepth(Double phuongSaiDepth) {
+        this.phuongSaiDepth = phuongSaiDepth;
     }
 
     @Override
