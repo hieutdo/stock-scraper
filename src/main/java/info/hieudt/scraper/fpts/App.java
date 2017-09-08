@@ -821,7 +821,8 @@ public class App {
             List<String> headerColumns = Arrays.asList(
                     "Thang", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
                     "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
-                    "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich"
+                    "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich",
+                    "Phuong sai Quospread", "Phuong sai Depth", "Phuong sai Amihud"
             );
 
             for (int i = 0; i < headerColumns.size(); i++) {
@@ -996,6 +997,27 @@ public class App {
                 if (bienTheoThang.getTongGiaTriGiaoDich() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoThang.getTongGiaTriGiaoDich());
+                }
+
+                // Phuong sai Quospread
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getPhuongSaiQuospread() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getPhuongSaiQuospread());
+                }
+
+                // Phuong sai Depth
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getPhuongSaiDepth() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getPhuongSaiDepth());
+                }
+
+                // Phuong sai Amihud
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getPhuongSaiAmihud() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getPhuongSaiAmihud());
                 }
             }
 
