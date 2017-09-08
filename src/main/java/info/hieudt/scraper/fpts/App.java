@@ -2045,23 +2045,19 @@ public class App {
                     E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
                     nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
                      */
-                    Double avgQuos = bienTheoNgayList.stream()
+                    List<BienTheoNgay> ngayCoQuospread = bienTheoNgayList.stream()
                             .filter(bienTheoNgay -> bienTheoNgay.getQuospread() != null)
-                            .collect(Collectors.averagingDouble(BienTheoNgay::getQuospread));
-                    if (avgQuos != null) {
-                        Double phuongSaiQuosTemp = null;
-                        for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
-                            Double quosTheoNgay = bienTheoNgay.getQuospread();
-                            if (quosTheoNgay != null) {
-                                if (phuongSaiQuosTemp == null) {
-                                    phuongSaiQuosTemp = 0.0;
-                                }
-                                phuongSaiQuosTemp += Math.pow(quosTheoNgay - avgQuos, 2);
-                            }
+                            .collect(Collectors.toList());
+                    if (ngayCoQuospread.size() > 0) {
+                        Double average = ngayCoQuospread
+                                .stream()
+                                .collect(Collectors.averagingDouble(BienTheoNgay::getQuospread));
+                        Double temp = 0.0;
+                        for (BienTheoNgay bienTheoNgay : ngayCoQuospread) {
+                            Double quospread = bienTheoNgay.getQuospread();
+                            temp += Math.pow(quospread - average, 2);
                         }
-                        if (phuongSaiQuosTemp != null) {
-                            bienTheoQuy.setPhuongSaiQuospread(phuongSaiQuosTemp / tongSoNgay);
-                        }
+                        bienTheoQuy.setPhuongSaiQuospread(temp / ngayCoQuospread.size());
                     }
 
                     /*
@@ -2071,23 +2067,19 @@ public class App {
                     E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
                     nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
                      */
-                    Double avgDepth = bienTheoNgayList.stream()
+                    List<BienTheoNgay> ngayCoDepth = bienTheoNgayList.stream()
                             .filter(bienTheoNgay -> bienTheoNgay.getDepth() != null)
-                            .collect(Collectors.averagingDouble(BienTheoNgay::getDepth));
-                    if (avgDepth != null) {
-                        Double phuongSaiDepthTemp = null;
-                        for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
-                            Double depthTheoNgay = bienTheoNgay.getDepth();
-                            if (depthTheoNgay != null) {
-                                if (phuongSaiDepthTemp == null) {
-                                    phuongSaiDepthTemp = 0.0;
-                                }
-                                phuongSaiDepthTemp += Math.pow(depthTheoNgay - avgDepth, 2);
-                            }
+                            .collect(Collectors.toList());
+                    if (ngayCoDepth.size() > 0) {
+                        Double average = ngayCoDepth
+                                .stream()
+                                .collect(Collectors.averagingDouble(BienTheoNgay::getDepth));
+                        Double temp = 0.0;
+                        for (BienTheoNgay bienTheoNgay : ngayCoDepth) {
+                            Double depth = bienTheoNgay.getDepth();
+                            temp += Math.pow(depth - average, 2);
                         }
-                        if (phuongSaiDepthTemp != null) {
-                            bienTheoQuy.setPhuongSaiDepth(phuongSaiDepthTemp / tongSoNgay);
-                        }
+                        bienTheoQuy.setPhuongSaiDepth(temp / ngayCoDepth.size());
                     }
 
                     /*
@@ -2096,23 +2088,19 @@ public class App {
                     Trong đó Amihudt là Amihud (ngày t trong quý); E(Amihud) là trung bình cộng Amihud của các ngày trong quý.
                     Nghĩa là:  E(Amihud) = [Amihud (ngày thứ 1 của quý) +  Amihud (ngày thứ 2 của quý) + …+ Amihud (ngày thứ t của quý)]/N
                      */
-                    Double avgAmihud = bienTheoNgayList.stream()
+                    List<BienTheoNgay> ngayCoAmihud = bienTheoNgayList.stream()
                             .filter(bienTheoNgay -> bienTheoNgay.getAmihud() != null)
-                            .collect(Collectors.averagingDouble(BienTheoNgay::getAmihud));
-                    if (avgAmihud != null) {
-                        Double phuongSaiAmihudTemp = null;
-                        for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
-                            Double amihudTheoNgay = bienTheoNgay.getAmihud();
-                            if (amihudTheoNgay != null) {
-                                if (phuongSaiAmihudTemp == null) {
-                                    phuongSaiAmihudTemp = 0.0;
-                                }
-                                phuongSaiAmihudTemp += Math.pow(amihudTheoNgay - avgAmihud, 2);
-                            }
+                            .collect(Collectors.toList());
+                    if (ngayCoAmihud.size() > 0) {
+                        Double average = ngayCoAmihud
+                                .stream()
+                                .collect(Collectors.averagingDouble(BienTheoNgay::getAmihud));
+                        Double temp = 0.0;
+                        for (BienTheoNgay bienTheoNgay : ngayCoAmihud) {
+                            Double amihud = bienTheoNgay.getAmihud();
+                            temp += Math.pow(amihud - average, 2);
                         }
-                        if (phuongSaiAmihudTemp != null) {
-                            bienTheoQuy.setPhuongSaiAmihud(phuongSaiAmihudTemp / tongSoNgay);
-                        }
+                        bienTheoQuy.setPhuongSaiAmihud(temp / ngayCoAmihud.size());
                     }
 
                     /*
