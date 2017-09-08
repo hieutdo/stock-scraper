@@ -125,7 +125,7 @@ public class BienTheoNgay {
     private void tinhAmihud() {
         /*
         Ký hiệu: Amihud(5) (tính theo ngày, tháng, quý, năm)
-        Amihud(5) =  |Rt|/Vt
+        Amihud(5) = 10^6 * |Rt|/Vt
         Trong đó: Vt = giá đóng cửa tại ngày t x khối lượng giao dịch lấy cột tổng cộng tại ngày t,
         Rt là tỷ suất sinh lợi cổ phiếu tại ngày t = (Giá đóng cửa ngày t  - giá đóng của ngày t-1)/Giá đóng cửa ngày t-1
         */
@@ -135,7 +135,7 @@ public class BienTheoNgay {
         if (khoiLuongGiaoDichTongCong != null && giaDongCua != null && this.R != null) {
             Double V = giaDongCua * khoiLuongGiaoDichTongCong;
             if (V != 0) {
-                this.amihud = abs(this.R) / V;
+                this.amihud = Math.pow(10, 6) * abs(this.R) / V;
             }
         }
     }
