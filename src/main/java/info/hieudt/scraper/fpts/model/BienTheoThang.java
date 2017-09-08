@@ -27,6 +27,9 @@ public class BienTheoThang {
     protected Double zeros;
     protected Double zeros2;
     protected Double phuongSai;
+    protected Double phuongSaiQuospread;
+    protected Double phuongSaiDepth;
+    protected Double phuongSaiAmihud;
 
     protected Long tongKhoiLuongGiaoDich;
     protected Double tongGiaTriGiaoDich;
@@ -228,6 +231,30 @@ public class BienTheoThang {
 
     public void setTongSoNgayGiaoDich(Integer tongSoNgayGiaoDich) {
         this.tongSoNgayGiaoDich = tongSoNgayGiaoDich;
+    }
+
+    public Double getPhuongSaiQuospread() {
+        return phuongSaiQuospread;
+    }
+
+    public void setPhuongSaiQuospread(Double phuongSaiQuospread) {
+        this.phuongSaiQuospread = phuongSaiQuospread;
+    }
+
+    public Double getPhuongSaiDepth() {
+        return phuongSaiDepth;
+    }
+
+    public void setPhuongSaiDepth(Double phuongSaiDepth) {
+        this.phuongSaiDepth = phuongSaiDepth;
+    }
+
+    public Double getPhuongSaiAmihud() {
+        return phuongSaiAmihud;
+    }
+
+    public void setPhuongSaiAmihud(Double phuongSaiAmihud) {
+        this.phuongSaiAmihud = phuongSaiAmihud;
     }
 
     @Override

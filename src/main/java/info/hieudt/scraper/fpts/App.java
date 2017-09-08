@@ -2183,13 +2183,13 @@ public class App {
                             "b.pk.sanGiaoDich," +
                             "sum(b.R)," +
                             "avg(b.effspread)," +
-                            "avg(b.quospread)," +
+                            "exp(sum(log(b.quospread)) / count(b.quospread))," +
                             "avg(b.phanTramQuospread)," +
-                            "avg(b.amihud)," +
+                            "exp(sum(log(b.amihud)) / count(b.amihud))," +
                             "avg(b.amihudmoi)," +
                             "avg(b.adAmihud)," +
                             "avg(b.aminvest)," +
-                            "avg(b.depth)," +
+                            "exp(sum(log(b.depth)) / count(b.depth))," +
                             "avg(b.compositeLiq)," +
                             "avg(b.highlow)) " +
                             "from BienTheoNgay b " +
@@ -2289,15 +2289,82 @@ public class App {
                      */
                     Double phuongSaiTemp = null;
                     for (BienTheoNgay bienTheoNgay : bienTheoNgayList) {
-                        if (bienTheoNgay.getR() != null && bienTheoThang.getR() != null) {
+                        Double rTheoNgay = bienTheoNgay.getR();
+                        Double rTheoThang = bienTheoThang.getR();
+                        if (rTheoNgay != null && rTheoThang != null) {
                             if (phuongSaiTemp == null) {
                                 phuongSaiTemp = 0.0;
                             }
-                            phuongSaiTemp += Math.pow(bienTheoNgay.getR() - bienTheoThang.getR(), 2);
+                            phuongSaiTemp += Math.pow(rTheoNgay - rTheoThang, 2);
                         }
                     }
                     if (phuongSaiTemp != null) {
                         bienTheoThang.setPhuongSai(phuongSaiTemp / tongSoNgay);
+                    }
+
+                                        /*
+                    update lan 3: tinh phuong sai cua Quospread
+                    Phương sai của Quos = (1/N) ∑(Quost – E(Quos))2
+                    Trong đó Quost là Quos (ngày t trong quý); N là số ngày tính Quos trong quý;
+                    E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
+                    nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
+                     */
+                    List<BienTheoNgay> ngayCoQuospread = bienTheoNgayList.stream()
+                            .filter(bienTheoNgay -> bienTheoNgay.getQuospread() != null)
+                            .collect(Collectors.toList());
+                    if (ngayCoQuospread.size() > 0) {
+                        Double average = ngayCoQuospread
+                                .stream()
+                                .collect(Collectors.averagingDouble(BienTheoNgay::getQuospread));
+                        Double temp = 0.0;
+                        for (BienTheoNgay bienTheoNgay : ngayCoQuospread) {
+                            Double quospread = bienTheoNgay.getQuospread();
+                            temp += Math.pow(quospread - average, 2);
+                        }
+                        bienTheoThang.setPhuongSaiQuospread(temp / ngayCoQuospread.size());
+                    }
+
+                    /*
+                    update lan 3: tinh phuong sai cua Depth
+                    Phương sai của Quos = (1/N) ∑(Quost – E(Quos))2
+                    Trong đó Quost là Quos (ngày t trong quý); N là số ngày tính Quos trong quý;
+                    E(Quos) là trung bình cộng của Qous của các ngày trong quý chia lại cho N,
+                    nghĩa là E(Quos) = [Quos (ngày thứ 1 của quý) +  Quos (ngày thứ 2 của quý) + …+ Quos (ngày thứ t của quý)]/N
+                     */
+                    List<BienTheoNgay> ngayCoDepth = bienTheoNgayList.stream()
+                            .filter(bienTheoNgay -> bienTheoNgay.getDepth() != null)
+                            .collect(Collectors.toList());
+                    if (ngayCoDepth.size() > 0) {
+                        Double average = ngayCoDepth
+                                .stream()
+                                .collect(Collectors.averagingDouble(BienTheoNgay::getDepth));
+                        Double temp = 0.0;
+                        for (BienTheoNgay bienTheoNgay : ngayCoDepth) {
+                            Double depth = bienTheoNgay.getDepth();
+                            temp += Math.pow(depth - average, 2);
+                        }
+                        bienTheoThang.setPhuongSaiDepth(temp / ngayCoDepth.size());
+                    }
+
+                    /*
+                    update lan 3: tinh phuong sai cua Amihud
+                    Phương sai của Amihud = (1/N) ∑(Amihudt – E(Amihud))2
+                    Trong đó Amihudt là Amihud (ngày t trong quý); E(Amihud) là trung bình cộng Amihud của các ngày trong quý.
+                    Nghĩa là:  E(Amihud) = [Amihud (ngày thứ 1 của quý) +  Amihud (ngày thứ 2 của quý) + …+ Amihud (ngày thứ t của quý)]/N
+                     */
+                    List<BienTheoNgay> ngayCoAmihud = bienTheoNgayList.stream()
+                            .filter(bienTheoNgay -> bienTheoNgay.getAmihud() != null)
+                            .collect(Collectors.toList());
+                    if (ngayCoAmihud.size() > 0) {
+                        Double average = ngayCoAmihud
+                                .stream()
+                                .collect(Collectors.averagingDouble(BienTheoNgay::getAmihud));
+                        Double temp = 0.0;
+                        for (BienTheoNgay bienTheoNgay : ngayCoAmihud) {
+                            Double amihud = bienTheoNgay.getAmihud();
+                            temp += Math.pow(amihud - average, 2);
+                        }
+                        bienTheoThang.setPhuongSaiAmihud(temp / ngayCoAmihud.size());
                     }
 
                     /*
