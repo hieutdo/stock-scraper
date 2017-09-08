@@ -1066,7 +1066,8 @@ public class App {
             List<String> headerColumns = Arrays.asList(
                     "Quy", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
                     "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
-                    "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich"
+                    "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich",
+                    "Phuong sai Quospread", "Phuong sai Depth", "Phuong sai Amihud"
             );
 
             for (int i = 0; i < headerColumns.size(); i++) {
@@ -1241,6 +1242,27 @@ public class App {
                 if (bienTheoQuy.getTongGiaTriGiaoDich() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoQuy.getTongGiaTriGiaoDich());
+                }
+
+                // Phuong sai Quospread
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getPhuongSaiQuospread() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getPhuongSaiQuospread());
+                }
+
+                // Phuong sai Depth
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getPhuongSaiDepth() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getPhuongSaiDepth());
+                }
+
+                // Phuong sai Amihud
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getPhuongSaiAmihud() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getPhuongSaiAmihud());
                 }
             }
 
