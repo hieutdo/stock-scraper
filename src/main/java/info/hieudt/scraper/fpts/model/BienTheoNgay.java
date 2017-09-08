@@ -94,7 +94,9 @@ public class BienTheoNgay {
 
     private void tinhQuospread() {
         // update lan 3: Quospread dc tinh giong phanTramQuospread
-        this.quospread = this.phanTramQuospread;
+        if (this.phanTramQuospread != null && this.phanTramQuospread > 0) {
+            this.quospread = this.phanTramQuospread;
+        }
 
         /*
         Ký hiệu: Quospread(3) (tính theo ngày, tháng, quý, năm)
