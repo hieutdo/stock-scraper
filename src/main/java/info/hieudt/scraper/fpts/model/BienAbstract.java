@@ -1,5 +1,11 @@
 package info.hieudt.scraper.fpts.model;
 
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.List;
+
+@MappedSuperclass
 public abstract class BienAbstract {
     protected Double R;
     protected Double effspread;
@@ -8,10 +14,14 @@ public abstract class BienAbstract {
     protected Double quospread3;
     protected Double phanTramQuospread;
     protected Double amihud;
+    protected Double amihud2;
+    protected Double amihud3;
     protected Double amihudmoi;
     protected Double adAmihud;
     protected Double aminvest;
     protected Double depth;
+    protected Double depth2;
+    protected Double depth3;
     protected Double compositeLiq;
     protected Double highlow;
 
@@ -31,21 +41,80 @@ public abstract class BienAbstract {
     protected Double nt;
     protected Integer tongSoNgayGiaoDich;
 
+    @Transient
+    protected List<BienTheoNgay> bienTheoNgayList;
+
     public BienAbstract() {
     }
 
-    public BienAbstract(Double R, Double effspread, Double quospread, Double phanTramQuospread, Double amihud, Double amihudmoi, Double adAmihud, Double aminvest, Double depth, Double compositeLiq, Double highlow) {
-        this.R = R;
-        this.effspread = effspread;
-        this.quospread = quospread;
-        this.phanTramQuospread = phanTramQuospread;
-        this.amihud = amihud;
-        this.amihudmoi = amihudmoi;
-        this.adAmihud = adAmihud;
-        this.aminvest = aminvest;
-        this.depth = depth;
-        this.compositeLiq = compositeLiq;
-        this.highlow = highlow;
+    protected static Double geometricMean(List<Double> list) {
+        int n = list.size();
+        if (n == 0) return null;
+        double gmLog = 0.0d;
+        for (int i = 0; i < n; ++i) {
+            if (list.get(i) == 0.0) {
+                return 0.0;
+            }
+            gmLog += Math.log(list.get(i));
+        }
+        return Math.exp(gmLog / n);
+    }
+
+    public void calculateGeometricMean() {
+        /*
+        Cách 2: Trước khi tính trung bình nhân, em cộng từng giá trị của từng ngày với 1 trước (làm cho tất cả các giá trị,
+        kể cả những ô có giá trị 0 lẫn những ô có giá trị khác 0), sau đó tính trung bình nhân bình thường.
+        Vì thế lúc này trung bình nhân sẽ được tính cho tất cả các ngày trong tháng/quý. Và sau khi lấy căn N thì trừ lại cho 1.
+        Ví dụ:
+        Quospread2= = [(1+Quos ngày thứ 1 của quý/tháng) x (1+Quos ngày thứ 2 của quý/hoặc tháng) x …x (1+Quos ngày thứ N của quý/tháng)]^(1/N) - 1
+
+        Cách 3: Tính như cách 1 em đã làm cho cô, nhưng chỉ khác là trong phép trung bình nhân lần chỉ lấy căn số thừa
+        số trong phép nhân, nghĩa là những ngày mà Quos, Depth, Amihud bằng 0 thì không tính.
+        Nghĩa là chỉ tính căn bậc của số ngày có tham gia trong phép tính trung bình.
+         */
+        List<Double> quospread2List = new ArrayList<>();
+        List<Double> quospread3List = new ArrayList<>();
+
+        List<Double> depth2List = new ArrayList<>();
+        List<Double> depth3List = new ArrayList<>();
+
+        List<Double> amihud2List = new ArrayList<>();
+        List<Double> amihud3List = new ArrayList<>();
+
+        bienTheoNgayList.forEach(bienTheoNgay -> {
+            Double quospread = bienTheoNgay.getQuospread();
+            Double depth = bienTheoNgay.getDepth();
+            Double amihud = bienTheoNgay.getAmihud();
+
+            if (quospread != null && quospread != 0) {
+                quospread2List.add(quospread + 1);
+                quospread3List.add(quospread);
+            } else {
+                quospread2List.add(1.0);
+            }
+
+            if (depth != null && depth != 0) {
+                depth2List.add(depth + 1);
+                depth3List.add(depth);
+            } else {
+                depth2List.add(1.0);
+            }
+
+            if (amihud != null && amihud != 0) {
+                amihud2List.add(amihud + 1);
+                amihud3List.add(amihud);
+            } else {
+                amihud2List.add(1.0);
+            }
+        });
+
+        this.quospread2 = BienAbstract.geometricMean(quospread2List) - 1;
+        this.depth2 = BienAbstract.geometricMean(depth2List) - 1;
+        this.amihud2 = BienAbstract.geometricMean(amihud2List) - 1;
+
+        this.quospread3 = BienAbstract.geometricMean(quospread3List);
+        this.depth3 = BienAbstract.geometricMean(depth3List);
+        this.amihud3 = BienAbstract.geometricMean(amihud3List);
     }
 
     public Double getR() {
@@ -72,6 +141,22 @@ public abstract class BienAbstract {
         this.quospread = quospread;
     }
 
+    public Double getQuospread2() {
+        return quospread2;
+    }
+
+    public void setQuospread2(Double quospread2) {
+        this.quospread2 = quospread2;
+    }
+
+    public Double getQuospread3() {
+        return quospread3;
+    }
+
+    public void setQuospread3(Double quospread3) {
+        this.quospread3 = quospread3;
+    }
+
     public Double getPhanTramQuospread() {
         return phanTramQuospread;
     }
@@ -86,6 +171,22 @@ public abstract class BienAbstract {
 
     public void setAmihud(Double amihud) {
         this.amihud = amihud;
+    }
+
+    public Double getAmihud2() {
+        return amihud2;
+    }
+
+    public void setAmihud2(Double amihud2) {
+        this.amihud2 = amihud2;
+    }
+
+    public Double getAmihud3() {
+        return amihud3;
+    }
+
+    public void setAmihud3(Double amihud3) {
+        this.amihud3 = amihud3;
     }
 
     public Double getAmihudmoi() {
@@ -118,6 +219,22 @@ public abstract class BienAbstract {
 
     public void setDepth(Double depth) {
         this.depth = depth;
+    }
+
+    public Double getDepth2() {
+        return depth2;
+    }
+
+    public void setDepth2(Double depth2) {
+        this.depth2 = depth2;
+    }
+
+    public Double getDepth3() {
+        return depth3;
+    }
+
+    public void setDepth3(Double depth3) {
+        this.depth3 = depth3;
     }
 
     public Double getCompositeLiq() {
@@ -240,21 +357,12 @@ public abstract class BienAbstract {
         this.phuongSaiAmihud = phuongSaiAmihud;
     }
 
-    public Double getQuospread2() {
-        return quospread2;
+    public List<BienTheoNgay> getBienTheoNgayList() {
+        return bienTheoNgayList;
     }
 
-    public void setQuospread2(Double quospread2) {
-        this.quospread2 = quospread2;
+    public void setBienTheoNgayList(List<BienTheoNgay> bienTheoNgayList) {
+        this.bienTheoNgayList = bienTheoNgayList;
     }
-
-    public Double getQuospread3() {
-        return quospread3;
-    }
-
-    public void setQuospread3(Double quospread3) {
-        this.quospread3 = quospread3;
-    }
-
 }
 
