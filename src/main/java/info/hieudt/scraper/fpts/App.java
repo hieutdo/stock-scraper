@@ -45,8 +45,8 @@ public class App {
         Instant start = Instant.now();
 
         Integer namBatDau = 2007;
-        Integer namKetThuc = 2014;
-        Date ngayBatDau = parseDate(namBatDau + "-01-01");
+        Integer namKetThuc = 2013;
+        Date ngayBatDau = parseDate(namBatDau + "-07-01");
         Date ngayKetThuc = parseDate(namKetThuc + "-12-31");
 
         // step 1
@@ -71,9 +71,9 @@ public class App {
         //generateBienTheoNam(ngayBatDau);
 
         // step 4
-        //exportBienTheoNgay("excel/bien.theo.ngay.lan.3.xlsx", ngayBatDau, ngayKetThuc);
-        //exportBienTheoThang("excel/bien.theo.thang.full.xlsx", namBatDau, namKetThuc);
-        //exportBienTheoQuy("excel/bien.theo.quy.lan.3.xlsx", namBatDau, namKetThuc);
+        //exportBienTheoNgay("excel/bien.theo.ngay.xlsx", ngayBatDau, ngayKetThuc);
+        //exportBienTheoThang("excel/bien.theo.thang.xlsx", namBatDau, namKetThuc);
+        //exportBienTheoQuy("excel/bien.theo.quy.xlsx", namBatDau, namKetThuc);
         //exportBienTheoNam("excel/bien.theo.nam.full.xlsx", namBatDau, namKetThuc);
 
         //exportDuLieuThiTruongTheoNgay();
@@ -2328,6 +2328,17 @@ public class App {
                         }
                     }
 
+                    /* update lan 3: tinh quospread2
+                    * Trước khi tính trung bình nhân, em cộng từng giá trị của từng ngày với 1 trước (làm cho tất cả các giá trị,
+                    * kể cả những ô có giá trị 0 lẫn những ô có giá trị khác 0), sau đó tính trung bình nhân bình thường.
+                    * Vì thế lúc này trung bình nhân sẽ được tính cho tất cả các ngày trong tháng/quý.
+                    * Và sau khi lấy căn N thì trừ lại cho 1.
+                      Ví dụ:
+                      Quospread2= = [(1+Quos ngày thứ 1 của quý/tháng) x (1+Quos ngày thứ 2 của quý/hoặc tháng) x …x (1+Quos ngày thứ N của quý/tháng)]^(1/N) - 1
+                    */
+                    //double productOfQuospread2 = bienTheoNgayList.stream().map(b -> 1 + (b.getQuospread() != null ? b.getQuospread() : 0))
+
+
                     /*
                     13. Phương sai =  (1/N) ∑(Rit – E(Ri,t))2
                      */
@@ -2895,4 +2906,6 @@ public class App {
         DataUtil.downloadDuLieuLichSu("http://priceboard.fpts.com.vn/user/stock/ndtnn/", DataUtil.maChungKhoan, GIAO_DICH_KHOP_LENH_DIR);
         DataUtil.downloadDuLieuLichSu("http://priceboard.fpts.com.vn/user/stock/ndtnntt/", DataUtil.maChungKhoan, GIAO_DICH_THOA_THUAN_DIR);
     }
+
+    //private static double calculateGeometricMean()
 }
