@@ -819,8 +819,8 @@ public class App {
             Cell cell = null;
 
             List<String> headerColumns = Arrays.asList(
-                    "Thang", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
-                    "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
+                    "Thang", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "Quospread2", "Quospread3", "%Quospread", "Amihud", "Amihud2", "Amihud3", "AmihudMoi", "AdAmihud", "Aminvest",
+                    "Depth", "Depth2", "Depth3", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
                     "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich",
                     "Phuong sai Quospread", "Phuong sai Depth", "Phuong sai Amihud"
             );
@@ -894,6 +894,20 @@ public class App {
                     cell.setCellValue(bienTheoThang.getQuospread());
                 }
 
+                // Quospread2
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getQuospread2() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getQuospread2());
+                }
+
+                // Quospread3
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getQuospread3() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getQuospread3());
+                }
+
                 // %Quospread
                 cell = row.createCell(++columnIndex);
                 if (bienTheoThang.getPhanTramQuospread() != null) {
@@ -906,6 +920,20 @@ public class App {
                 if (bienTheoThang.getAmihud() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoThang.getAmihud());
+                }
+
+                // Amihud2
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getAmihud2() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getAmihud2());
+                }
+
+                // Amihud3
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getAmihud3() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getAmihud3());
                 }
 
                 // AmihudMoi
@@ -934,6 +962,20 @@ public class App {
                 if (bienTheoThang.getDepth() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoThang.getDepth());
+                }
+
+                // Depth2
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getDepth2() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getDepth2());
+                }
+
+                // Depth3
+                cell = row.createCell(++columnIndex);
+                if (bienTheoThang.getDepth3() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoThang.getDepth3());
                 }
 
                 // CompositeLiq
@@ -1064,8 +1106,8 @@ public class App {
             Cell cell = null;
 
             List<String> headerColumns = Arrays.asList(
-                    "Quy", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "%Quospread", "Amihud", "AmihudMoi", "AdAmihud", "Aminvest",
-                    "Depth", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
+                    "Quy", "San", "Ma co phieu", "Tong so ngay", "Ri", "Phuong sai", "Roll", "Effspread", "Quospread", "Quospread2", "Quospread3", "%Quospread", "Amihud", "Amihud2", "Amihud3", "AmihudMoi", "AdAmihud", "Aminvest",
+                    "Depth", "Depth2", "Depth3", "CompositeLiq", "Zeros", "Zeros2", "Highlow", "NT",
                     "Trung binh khoi luong giao dich", "Trung binh gia tri giao dich", "Tong khoi luong giao dich", "Tong gia tri giao dich",
                     "Phuong sai Quospread", "Phuong sai Depth", "Phuong sai Amihud"
             );
@@ -1139,6 +1181,20 @@ public class App {
                     cell.setCellValue(bienTheoQuy.getQuospread());
                 }
 
+                // Quospread2
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getQuospread2() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getQuospread2());
+                }
+
+                // Quospread3
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getQuospread3() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getQuospread3());
+                }
+
                 // %Quospread
                 cell = row.createCell(++columnIndex);
                 if (bienTheoQuy.getPhanTramQuospread() != null) {
@@ -1151,6 +1207,20 @@ public class App {
                 if (bienTheoQuy.getAmihud() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoQuy.getAmihud());
+                }
+
+                // Amihud2
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getAmihud2() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getAmihud2());
+                }
+
+                // Amihud3
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getAmihud3() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getAmihud3());
                 }
 
                 // AmihudMoi
@@ -1179,6 +1249,20 @@ public class App {
                 if (bienTheoQuy.getDepth() != null) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(bienTheoQuy.getDepth());
+                }
+
+                // Depth2
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getDepth2() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getDepth2());
+                }
+
+                // Depth3
+                cell = row.createCell(++columnIndex);
+                if (bienTheoQuy.getDepth3() != null) {
+                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellValue(bienTheoQuy.getDepth3());
                 }
 
                 // CompositeLiq
