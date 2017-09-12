@@ -14,7 +14,7 @@ public class BienTheoThang extends BienAbstract {
     public BienTheoThang() {
     }
 
-    public BienTheoThang(Integer nam, Integer thang, String maChungKhoan, SanGiaoDich sanGiaoDich) {
+    public BienTheoThang(Integer nam, Integer thang, String maChungKhoan, SanGiaoDich sanGiaoDich, Double R, Double effspread, Double quospread, Double phanTramQuospread, Double amihud, Double amihudmoi, Double adAmihud, Double aminvest, Double depth, Double compositeLiq, Double highlow) {
         this.pk = new ThangMaCK(nam, thang, maChungKhoan, sanGiaoDich);
         this.R = R;
         this.effspread = effspread;

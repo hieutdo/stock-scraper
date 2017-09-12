@@ -2283,6 +2283,9 @@ public class App {
                         .list();
 
                 if (bienTheoNgayList != null && !bienTheoNgayList.isEmpty()) {
+                    bienTheoThang.setBienTheoNgayList(bienTheoNgayList);
+                    bienTheoThang.calculateGeometricMean();
+
                     int tongSoNgay = bienTheoNgayList.size();
 
                     // 1. Tinh Roll
@@ -2327,17 +2330,6 @@ public class App {
                             bienTheoThang.setRoll(cov < 0 ? Math.sqrt(-cov) : 0);
                         }
                     }
-
-                    /* update lan 3: tinh quospread2
-                    * Trước khi tính trung bình nhân, em cộng từng giá trị của từng ngày với 1 trước (làm cho tất cả các giá trị,
-                    * kể cả những ô có giá trị 0 lẫn những ô có giá trị khác 0), sau đó tính trung bình nhân bình thường.
-                    * Vì thế lúc này trung bình nhân sẽ được tính cho tất cả các ngày trong tháng/quý.
-                    * Và sau khi lấy căn N thì trừ lại cho 1.
-                      Ví dụ:
-                      Quospread2= = [(1+Quos ngày thứ 1 của quý/tháng) x (1+Quos ngày thứ 2 của quý/hoặc tháng) x …x (1+Quos ngày thứ N của quý/tháng)]^(1/N) - 1
-                    */
-                    //double productOfQuospread2 = bienTheoNgayList.stream().map(b -> 1 + (b.getQuospread() != null ? b.getQuospread() : 0))
-
 
                     /*
                     13. Phương sai =  (1/N) ∑(Rit – E(Ri,t))2
@@ -2906,6 +2898,4 @@ public class App {
         DataUtil.downloadDuLieuLichSu("http://priceboard.fpts.com.vn/user/stock/ndtnn/", DataUtil.maChungKhoan, GIAO_DICH_KHOP_LENH_DIR);
         DataUtil.downloadDuLieuLichSu("http://priceboard.fpts.com.vn/user/stock/ndtnntt/", DataUtil.maChungKhoan, GIAO_DICH_THOA_THUAN_DIR);
     }
-
-    //private static double calculateGeometricMean()
 }
