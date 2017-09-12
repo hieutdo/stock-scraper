@@ -2019,6 +2019,9 @@ public class App {
                         .list();
 
                 if (bienTheoNgayList != null && !bienTheoNgayList.isEmpty()) {
+                    bienTheoQuy.setBienTheoNgayList(bienTheoNgayList);
+                    bienTheoQuy.calculateGeometricMean();
+
                     int tongSoNgay = bienTheoNgayList.size();
 
                     // 1. Tinh Roll
